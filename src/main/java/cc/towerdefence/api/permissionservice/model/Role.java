@@ -29,15 +29,15 @@ public class Role {
 
     private @Nullable String displayName;
 
-    private Set<String> permissions;
+    private Set<PermissionNode> permissions;
 
     public PermissionProto.RoleResponse toProto() {
         PermissionProto.RoleResponse.Builder builder = PermissionProto.RoleResponse.newBuilder()
                 .setId(this.id)
                 .setPriority(this.priority)
-                .addAllPermissions(this.permissions);
+                .addAllPermissions(this.permissions.stream().map(PermissionNode::toProto).toList());
 
-        if (this.displayPrefix!= null) builder.setDisplayPrefix(this.displayPrefix);
+        if (this.displayPrefix != null) builder.setDisplayPrefix(this.displayPrefix);
         if (this.displayName != null) builder.setDisplayName(this.displayName);
 
         return builder.build();

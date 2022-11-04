@@ -1,5 +1,6 @@
 package cc.towerdefence.api.permissionservice.service;
 
+import cc.towerdefence.api.permissionservice.model.PermissionNode;
 import cc.towerdefence.api.permissionservice.model.Player;
 import cc.towerdefence.api.permissionservice.model.Role;
 import cc.towerdefence.api.permissionservice.repo.PlayerRepository;
@@ -60,11 +61,11 @@ public class PermissionService {
         if (request.hasDisplayPrefix()) role.setDisplayPrefix(request.getDisplayPrefix());
         if (request.hasDisplayName()) role.setDisplayName(request.getDisplayName());
 
-        for (String permission : request.getRemovedPermissionsList())
-            role.getPermissions().remove(permission);
+        for (String permission : request.getUnsetPermissionsList())
+            role.getPermissions().removeIf(node -> node.getNode().equals(permission));
 
-        for (String permission : request.getAddedPermissionsList())
-            role.getPermissions().add(permission);
+        for (PermissionProto.PermissionNode permission : request.getSetPermissionsList())
+            role.getPermissions().add(PermissionNode.fromProto(permission));
 
         return this.roleRepository.save(role).toProto();
     }
