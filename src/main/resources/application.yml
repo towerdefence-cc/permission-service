@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uuid-representation: standard
+      database: permission-service
+      auto-index-creation: true
