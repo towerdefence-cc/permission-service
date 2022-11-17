@@ -1,6 +1,5 @@
 package cc.towerdefence.api.permissionservice.controller;
 
-import cc.towerdefence.api.model.common.PlayerProto;
 import cc.towerdefence.api.permissionservice.service.PermissionService;
 import cc.towerdefence.api.service.PermissionProto;
 import cc.towerdefence.api.service.PermissionServiceGrpc;
@@ -27,7 +26,7 @@ public class PermissionController extends PermissionServiceGrpc.PermissionServic
     }
 
     @Override
-    public void getPlayerRoles(PlayerProto.PlayerRequest request, StreamObserver<PermissionProto.PlayerRolesResponse> responseObserver) {
+    public void getPlayerRoles(PermissionProto.PlayerRequest request, StreamObserver<PermissionProto.PlayerRolesResponse> responseObserver) {
         responseObserver.onNext(PermissionProto.PlayerRolesResponse.newBuilder()
                 .addAllRoleIds(this.permissionService.getPlayerRoleIds(UUID.fromString(request.getPlayerId())))
                 .build());
